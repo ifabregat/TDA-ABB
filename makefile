@@ -2,7 +2,7 @@ VALGRIND_FLAGS=--leak-check=full --track-origins=yes --show-reachable=yes --erro
 CFLAGS =-std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2 -g
 CC = gcc
 
-all: clean valgrind-alumno
+all: formatear clean valgrind-alumno 
 
 valgrind-alumno: pruebas_alumno
 	valgrind $(VALGRIND_FLAGS) ./pruebas_alumno
@@ -15,6 +15,9 @@ valgrind-ejemplo: ejemplo
 
 ejemplo: src/*.c ejemplo.c
 	$(CC) $(CFLAGS) src/*.c ejemplo.c -o ejemplo
+
+formatear:
+	clang-format -style=file -i src/*.c pruebas_alumno.c tp_abb.c src/abb.c
 
 clean:
 	rm -f pruebas_alumno ejemplo
