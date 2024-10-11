@@ -185,6 +185,77 @@ void eliminarVariosElementos()
 	abb_destruir_todo(abb, destructor);
 }
 
+bool imprimir_elemento(void *elemento, void *ctx)
+{
+	printf("%i ", *(int *)elemento);
+	return true;
+}
+
+void iterarInorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 21;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 32;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 3;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	size_t cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 6, "Se puede iterar en inorden el ABB");
+	abb_destruir_todo(abb, destructor);
+}
+
+void iterarInordenBorrandoUnElemento()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+
+	// Inserción de elementos
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 21;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 32;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 3;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+
+	size_t cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 6, "Se puede iterar en inorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 5, "Se puede iterar en inorden el ABB");
+
+	abb_destruir_todo(abb, destructor);
+}
+
 int main()
 {
 	pa2m_nuevo_grupo("Creacion ABB");
@@ -208,6 +279,10 @@ int main()
 	eliminarElemento();
 	printf("\n");
 	eliminarVariosElementos();
+	pa2m_nuevo_grupo("Iteracion elementos INORDEN");
+	iterarInorden();
+	printf("\n");
+	iterarInordenBorrandoUnElemento();
 
 	return pa2m_mostrar_reporte();
 }

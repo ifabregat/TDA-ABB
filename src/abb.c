@@ -113,11 +113,12 @@ bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 	nodo_t *nodo = abb->raiz;
 	nodo_t *padre = NULL;
 
+	// Busca el nodo mediante el comparador
 	while (nodo != NULL) {
 		int comparacion = abb->comparador(buscado, nodo->elemento);
 
 		if (comparacion == 0) {
-			break;
+			break; // Nodo encontrado
 		} else if (comparacion < 0) {
 			padre = nodo;
 			nodo = nodo->izq;
@@ -127,68 +128,100 @@ bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 		}
 	}
 
+	// Si no se encontró el nodo
 	if (nodo == NULL)
 		return false;
 
+	// Se guarda el elemento eliminado
 	if (encontrado != NULL)
 		*encontrado = nodo->elemento;
 
+	// Nodo a eliminar es la raíz
 	if (padre == NULL) {
-		if (nodo->izq == NULL) {
+		// Caso 1: La raíz no tiene hijos
+		if (nodo->izq == NULL && nodo->der == NULL) {
+			abb->raiz = NULL;
+		}
+		// Caso 2: La raíz tiene un hijo
+		else if (nodo->izq == NULL) {
 			abb->raiz = nodo->der;
 		} else if (nodo->der == NULL) {
 			abb->raiz = nodo->izq;
-		} else {
-			nodo_t *reemplazo = nodo->der;
+		}
+		// Caso 3: La raíz tiene dos hijos
+		else {
+			nodo_t *reemplazo = nodo->izq;
 			nodo_t *padre_reemplazo = nodo;
 
-			while (reemplazo->izq != NULL) {
+			// Encuentra el mayor en el subárbol izquierdo
+			while (reemplazo->der != NULL) {
 				padre_reemplazo = reemplazo;
-				reemplazo = reemplazo->izq;
+				reemplazo = reemplazo->der;
 			}
 
+			// Sustituye el valor del nodo a eliminar con el valor del reemplazo
 			nodo->elemento = reemplazo->elemento;
 
+			// Ajusta el puntero del padre del reemplazo
 			if (padre_reemplazo == nodo) {
-				nodo->der = reemplazo->der;
+				nodo->izq =
+					reemplazo->izq; // Si el reemplazo es el hijo izquierdo
 			} else {
-				padre_reemplazo->izq = reemplazo->der;
+				padre_reemplazo->der =
+					reemplazo->izq; // Si no, lo eliminamos
 			}
 		}
 	} else {
-		if (nodo->izq == NULL) {
+		// Caso 4: El nodo a eliminar no es la raíz
+		if (nodo->izq == NULL && nodo->der == NULL) {
+			// Si no tiene hijos, simplemente lo eliminamos
+			if (padre->izq == nodo) {
+				padre->izq = NULL;
+			} else {
+				padre->der = NULL;
+			}
+		} else if (nodo->izq == NULL) {
+			// Si tiene un hijo derecho
 			if (padre->izq == nodo) {
 				padre->izq = nodo->der;
 			} else {
 				padre->der = nodo->der;
 			}
 		} else if (nodo->der == NULL) {
+			// Si tiene un hijo izquierdo
 			if (padre->izq == nodo) {
 				padre->izq = nodo->izq;
 			} else {
 				padre->der = nodo->izq;
 			}
 		} else {
-			nodo_t *reemplazo = nodo->der;
+			// Caso 3: El nodo tiene dos hijos
+			nodo_t *reemplazo = nodo->izq;
 			nodo_t *padre_reemplazo = nodo;
 
-			while (reemplazo->izq != NULL) {
+			// Encuentra el mayor en el subárbol izquierdo
+			while (reemplazo->der != NULL) {
 				padre_reemplazo = reemplazo;
-				reemplazo = reemplazo->izq;
+				reemplazo = reemplazo->der;
 			}
 
+			// Sustituye el valor del nodo a eliminar con el valor del reemplazo
 			nodo->elemento = reemplazo->elemento;
 
+			// Ajusta el puntero del padre del reemplazo
 			if (padre_reemplazo == nodo) {
-				nodo->der = reemplazo->der;
+				nodo->izq =
+					reemplazo->izq; // Si el reemplazo es el hijo izquierdo
 			} else {
-				padre_reemplazo->izq = reemplazo->der;
+				padre_reemplazo->der =
+					reemplazo->izq; // Si no, lo eliminamos
 			}
 		}
 	}
 
+	// Libera el nodo
 	free(nodo);
-
+	nodo = NULL;
 	abb->nodos--;
 
 	return true;
@@ -221,9 +254,32 @@ size_t abb_cantidad(abb_t *abb)
 	return abb->nodos;
 }
 
+size_t abb_iterar_inorden_r(nodo_t *nodo, bool (*f)(void *, void *), void *ctx,
+			    size_t *contador)
+{
+	if (nodo == NULL)
+		return 0;
+
+	abb_iterar_inorden_r(nodo->izq, f, ctx, contador);
+
+	if (f(nodo->elemento, ctx) == false)
+		return *contador;
+
+	(*contador)++;
+
+	abb_iterar_inorden_r(nodo->der, f, ctx, contador);
+
+	return *contador;
+}
+
 size_t abb_iterar_inorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 {
-	return 0;
+	if (abb == NULL || abb->raiz == NULL)
+		return 0;
+
+	size_t contador = 0;
+
+	return abb_iterar_inorden_r(abb->raiz, f, ctx, &contador);
 }
 
 size_t abb_iterar_preorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
