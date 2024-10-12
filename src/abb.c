@@ -107,124 +107,81 @@ bool abb_insertar(abb_t *abb, void *elemento)
 
 bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 {
-	if (abb == NULL || abb->raiz == NULL)
+	if (abb == NULL)
 		return false;
 
 	nodo_t *nodo = abb->raiz;
 	nodo_t *padre = NULL;
 
-	// Busca el nodo mediante el comparador
 	while (nodo != NULL) {
 		int comparacion = abb->comparador(buscado, nodo->elemento);
 
 		if (comparacion == 0) {
-			break; // Nodo encontrado
-		} else if (comparacion < 0) {
-			padre = nodo;
-			nodo = nodo->izq;
-		} else {
-			padre = nodo;
+			if (encontrado != NULL)
+				*encontrado = nodo->elemento;
+
+			if (nodo->izq == NULL && nodo->der == NULL) {
+				if (padre == NULL)
+					abb->raiz = NULL;
+				else if (padre->izq == nodo)
+					padre->izq = NULL;
+				else
+					padre->der = NULL;
+
+				free(nodo);
+			} else if (nodo->izq == NULL) {
+				if (padre == NULL)
+					abb->raiz = nodo->der;
+				else if (padre->izq == nodo)
+					padre->izq = nodo->der;
+				else
+					padre->der = nodo->der;
+
+				free(nodo);
+			} else if (nodo->der == NULL) {
+				if (padre == NULL)
+					abb->raiz = nodo->izq;
+				else if (padre->izq == nodo)
+					padre->izq = nodo->izq;
+				else
+					padre->der = nodo->izq;
+
+				free(nodo);
+			} else {
+				nodo_t *reemplazo = nodo->der;
+				nodo_t *padre_reemplazo = nodo;
+
+				while (reemplazo->izq != NULL) {
+					padre_reemplazo = reemplazo;
+					reemplazo = reemplazo->izq;
+				}
+
+				if (padre_reemplazo == nodo)
+					padre_reemplazo->der = reemplazo->der;
+				else
+					padre_reemplazo->izq = reemplazo->der;
+
+				nodo->elemento = reemplazo->elemento;
+
+				free(reemplazo);
+			}
+
+			abb->nodos--;
+
+			return true;
+		}
+
+		padre = nodo;
+
+		if (comparacion > 0)
 			nodo = nodo->der;
-		}
+		else
+			nodo = nodo->izq;
 	}
 
-	// Si no se encontró el nodo
-	if (nodo == NULL)
-		return false;
-
-	// Se guarda el elemento eliminado
-	if (encontrado != NULL)
-		*encontrado = nodo->elemento;
-
-	// Nodo a eliminar es la raíz
-	if (padre == NULL) {
-		// Caso 1: La raíz no tiene hijos
-		if (nodo->izq == NULL && nodo->der == NULL) {
-			abb->raiz = NULL;
-		}
-		// Caso 2: La raíz tiene un hijo
-		else if (nodo->izq == NULL) {
-			abb->raiz = nodo->der;
-		} else if (nodo->der == NULL) {
-			abb->raiz = nodo->izq;
-		}
-		// Caso 3: La raíz tiene dos hijos
-		else {
-			nodo_t *reemplazo = nodo->izq;
-			nodo_t *padre_reemplazo = nodo;
-
-			// Encuentra el mayor en el subárbol izquierdo
-			while (reemplazo->der != NULL) {
-				padre_reemplazo = reemplazo;
-				reemplazo = reemplazo->der;
-			}
-
-			// Sustituye el valor del nodo a eliminar con el valor del reemplazo
-			nodo->elemento = reemplazo->elemento;
-
-			// Ajusta el puntero del padre del reemplazo
-			if (padre_reemplazo == nodo) {
-				nodo->izq =
-					reemplazo->izq; // Si el reemplazo es el hijo izquierdo
-			} else {
-				padre_reemplazo->der =
-					reemplazo->izq; // Si no, lo eliminamos
-			}
-		}
-	} else {
-		// Caso 4: El nodo a eliminar no es la raíz
-		if (nodo->izq == NULL && nodo->der == NULL) {
-			// Si no tiene hijos, simplemente lo eliminamos
-			if (padre->izq == nodo) {
-				padre->izq = NULL;
-			} else {
-				padre->der = NULL;
-			}
-		} else if (nodo->izq == NULL) {
-			// Si tiene un hijo derecho
-			if (padre->izq == nodo) {
-				padre->izq = nodo->der;
-			} else {
-				padre->der = nodo->der;
-			}
-		} else if (nodo->der == NULL) {
-			// Si tiene un hijo izquierdo
-			if (padre->izq == nodo) {
-				padre->izq = nodo->izq;
-			} else {
-				padre->der = nodo->izq;
-			}
-		} else {
-			// Caso 3: El nodo tiene dos hijos
-			nodo_t *reemplazo = nodo->izq;
-			nodo_t *padre_reemplazo = nodo;
-
-			// Encuentra el mayor en el subárbol izquierdo
-			while (reemplazo->der != NULL) {
-				padre_reemplazo = reemplazo;
-				reemplazo = reemplazo->der;
-			}
-
-			// Sustituye el valor del nodo a eliminar con el valor del reemplazo
-			nodo->elemento = reemplazo->elemento;
-
-			// Ajusta el puntero del padre del reemplazo
-			if (padre_reemplazo == nodo) {
-				nodo->izq =
-					reemplazo->izq; // Si el reemplazo es el hijo izquierdo
-			} else {
-				padre_reemplazo->der =
-					reemplazo->izq; // Si no, lo eliminamos
-			}
-		}
-	}
-
-	// Libera el nodo
 	free(nodo);
-	nodo = NULL;
-	abb->nodos--;
 
-	return true;
+	return false;
 }
 
 void *abb_obtener(abb_t *abb, void *elemento)
