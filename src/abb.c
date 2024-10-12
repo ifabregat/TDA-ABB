@@ -239,27 +239,142 @@ size_t abb_iterar_inorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 	return abb_iterar_inorden_r(abb->raiz, f, ctx, &contador);
 }
 
+size_t abb_iterar_preorden_r(nodo_t *nodo, bool (*f)(void *, void *), void *ctx,
+			     size_t *contador)
+{
+	if (nodo == NULL)
+		return 0;
+
+	if (f(nodo->elemento, ctx) == false)
+		return *contador;
+
+	(*contador)++;
+
+	abb_iterar_preorden_r(nodo->izq, f, ctx, contador);
+	abb_iterar_preorden_r(nodo->der, f, ctx, contador);
+
+	return *contador;
+}
+
 size_t abb_iterar_preorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 {
-	return 0;
+	if (abb == NULL || abb->raiz == NULL)
+		return 0;
+
+	size_t contador = 0;
+
+	return abb_iterar_preorden_r(abb->raiz, f, ctx, &contador);
+}
+
+size_t abb_iterar_postorden_r(nodo_t *nodo, bool (*f)(void *, void *),
+			      void *ctx, size_t *contador)
+{
+	if (nodo == NULL)
+		return 0;
+
+	abb_iterar_postorden_r(nodo->izq, f, ctx, contador);
+	abb_iterar_postorden_r(nodo->der, f, ctx, contador);
+
+	if (f(nodo->elemento, ctx) == false)
+		return *contador;
+
+	(*contador)++;
+
+	return *contador;
 }
 
 size_t abb_iterar_postorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 {
-	return 0;
+	if (abb == NULL || abb->raiz == NULL)
+		return 0;
+
+	size_t contador = 0;
+
+	return abb_iterar_postorden_r(abb->raiz, f, ctx, &contador);
+}
+
+size_t abb_vectorizar_inorden_r(nodo_t *nodo, void **vector, size_t tamaño,
+				size_t *contador)
+{
+	if (nodo == NULL || *contador >= tamaño)
+		return *contador;
+
+	abb_vectorizar_inorden_r(nodo->izq, vector, tamaño, contador);
+
+	if (*contador < tamaño) {
+		vector[*contador] = nodo->elemento;
+		(*contador)++;
+	}
+
+	abb_vectorizar_inorden_r(nodo->der, vector, tamaño, contador);
+
+	return *contador;
 }
 
 size_t abb_vectorizar_inorden(abb_t *abb, void **vector, size_t tamaño)
 {
-	return 0;
+	if (abb == NULL || abb->raiz == NULL || vector == NULL)
+		return 0;
+
+	size_t contador = 0;
+	abb_vectorizar_inorden_r(abb->raiz, vector, tamaño, &contador);
+	return contador;
+}
+
+size_t abb_vectorizar_preorden_r(nodo_t *nodo, void **vector, size_t tamaño,
+				 size_t *contador)
+{
+	if (nodo == NULL || *contador >= tamaño)
+		return *contador;
+
+	if (*contador < tamaño) {
+		vector[*contador] = nodo->elemento;
+		(*contador)++;
+	}
+
+	abb_vectorizar_preorden_r(nodo->izq, vector, tamaño, contador);
+	abb_vectorizar_preorden_r(nodo->der, vector, tamaño, contador);
+
+	return *contador;
 }
 
 size_t abb_vectorizar_preorden(abb_t *abb, void **vector, size_t tamaño)
 {
-	return 0;
+	if (abb == NULL || abb->raiz == NULL || vector == NULL)
+		return 0;
+
+	size_t contador = 0;
+	abb_vectorizar_preorden_r(abb->raiz, vector, tamaño, &contador);
+	return contador;
+}
+
+size_t abb_vectorizar_postorden_r(nodo_t *nodo, void **vector, size_t tamaño,
+				  size_t *contador)
+{
+	if (nodo == NULL ||
+	    *contador >= tamaño) // Si el nodo es NULL o ya llenamos el vector
+		return *contador;
+
+	// Recorre el subárbol izquierdo
+	abb_vectorizar_postorden_r(nodo->izq, vector, tamaño, contador);
+	// Recorre el subárbol derecho
+	abb_vectorizar_postorden_r(nodo->der, vector, tamaño, contador);
+
+	if (*contador < tamaño) {
+		vector[*contador] =
+			nodo->elemento; // Almacena el elemento en el vector
+		(*contador)++;
+	}
+
+	return *contador;
 }
 
 size_t abb_vectorizar_postorden(abb_t *abb, void **vector, size_t tamaño)
 {
-	return 0;
+	if (abb == NULL || abb->raiz == NULL || vector == NULL || tamaño == 0)
+		return 0;
+
+	size_t contador = 0;
+
+	return abb_vectorizar_postorden_r(abb->raiz, vector, tamaño, &contador);
 }
