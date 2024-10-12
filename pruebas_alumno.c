@@ -195,63 +195,1073 @@ void iterarInorden()
 {
 	abb_t *abb = abb_crear(comparador_enteros);
 	int *elemento1 = malloc(sizeof(int));
-	*elemento1 = 21;
+	*elemento1 = 50;
 	abb_insertar(abb, elemento1);
 	int *elemento2 = malloc(sizeof(int));
 	*elemento2 = 54;
 	abb_insertar(abb, elemento2);
 	int *elemento3 = malloc(sizeof(int));
-	*elemento3 = 32;
+	*elemento3 = 20;
 	abb_insertar(abb, elemento3);
 	int *elemento4 = malloc(sizeof(int));
 	*elemento4 = 10;
 	abb_insertar(abb, elemento4);
 	int *elemento5 = malloc(sizeof(int));
-	*elemento5 = 3;
+	*elemento5 = 30;
 	abb_insertar(abb, elemento5);
 	int *elemento6 = malloc(sizeof(int));
 	*elemento6 = 15;
 	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
 	size_t cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
 	printf("\n");
-	pa2m_afirmar(cantidad == 6, "Se puede iterar en inorden el ABB");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en inorden el ABB");
 	abb_destruir_todo(abb, destructor);
 }
 
 void iterarInordenBorrandoUnElemento()
 {
 	abb_t *abb = abb_crear(comparador_enteros);
-
-	// Inserción de elementos
 	int *elemento1 = malloc(sizeof(int));
-	*elemento1 = 21;
+	*elemento1 = 50;
 	abb_insertar(abb, elemento1);
 	int *elemento2 = malloc(sizeof(int));
 	*elemento2 = 54;
 	abb_insertar(abb, elemento2);
 	int *elemento3 = malloc(sizeof(int));
-	*elemento3 = 32;
+	*elemento3 = 20;
 	abb_insertar(abb, elemento3);
 	int *elemento4 = malloc(sizeof(int));
 	*elemento4 = 10;
 	abb_insertar(abb, elemento4);
 	int *elemento5 = malloc(sizeof(int));
-	*elemento5 = 3;
+	*elemento5 = 30;
 	abb_insertar(abb, elemento5);
 	int *elemento6 = malloc(sizeof(int));
 	*elemento6 = 15;
 	abb_insertar(abb, elemento6);
-
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
 	size_t cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
 	printf("\n");
-	pa2m_afirmar(cantidad == 6, "Se puede iterar en inorden el ABB");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en inorden el ABB");
 
 	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
 		     "Se puede eliminar un elemento del ABB");
 
 	cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
 	printf("\n");
+	pa2m_afirmar(cantidad == 6, "Se puede iterar en inorden el ABB");
+
+	free(elemento4);
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void otraPruebaDeIteracionInorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	size_t cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en inorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 6, "Se puede iterar en inorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento1, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
+	printf("\n");
 	pa2m_afirmar(cantidad == 5, "Se puede iterar en inorden el ABB");
+
+	free(elemento1);
+	free(elemento5);
+	abb_destruir_todo(abb, destructor);
+}
+
+void iterarPreorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	size_t cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en preorden el ABB");
+	abb_destruir_todo(abb, destructor);
+}
+
+void iterarPreordenBorrandoUnElemento()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	size_t cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en preorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 6, "Se puede iterar en preorden el ABB");
+
+	free(elemento4);
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void otraPruebaDeIteracionPreorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	size_t cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en preorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 6, "Se puede iterar en preorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento1, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 5, "Se puede iterar en preorden el ABB");
+
+	free(elemento1);
+	free(elemento5);
+	abb_destruir_todo(abb, destructor);
+}
+
+void iterarPostorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	size_t cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en postorden el ABB");
+	abb_destruir_todo(abb, destructor);
+}
+
+void iterarPostordenBorrandoUnElemento()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	size_t cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en postorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 6, "Se puede iterar en postorden el ABB");
+
+	free(elemento4);
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void otraPruebaDeIteracionPostorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	size_t cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 7, "Se puede iterar en postorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 6, "Se puede iterar en postorden el ABB");
+
+	pa2m_afirmar(abb_quitar(abb, elemento1, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	pa2m_afirmar(cantidad == 5, "Se puede iterar en postorden el ABB");
+
+	free(elemento1);
+	free(elemento5);
+	abb_destruir_todo(abb, destructor);
+}
+
+void vectorInorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_inorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en inorden");
+	pa2m_afirmar(*(int *)vector[0] == 10,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 15,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 20,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 30,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 50,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 60,
+		     "El septimo elemento del vector es el correcto");
+	abb_destruir_todo(abb, destructor);
+}
+
+void vectorInordenBorrandoUnElemento()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_inorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en inorden");
+	pa2m_afirmar(*(int *)vector[0] == 10,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 15,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 20,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 30,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 50,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 60,
+		     "El septimo elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_inorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 6,
+		     "Se puede guardar en un vector los elementos en inorden");
+
+	pa2m_afirmar(*(int *)vector[0] == 15,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 20,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 30,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 50,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 54,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 60,
+		     "El sexto elemento del vector es el correcto");
+
+	free(elemento4);
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void otraPruebaDeVectorInorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_inorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en inorden");
+	pa2m_afirmar(*(int *)vector[0] == 10,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 15,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 20,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 30,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 50,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 60,
+		     "El septimo elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_inorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 6,
+		     "Se puede guardar en un vector los elementos en inorden");
+
+	pa2m_afirmar(*(int *)vector[0] == 10,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 15,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 20,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 50,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 54,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 60,
+		     "El sexto elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento1, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_inorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 5,
+		     "Se puede guardar en un vector los elementos en inorden");
+
+	pa2m_afirmar(*(int *)vector[0] == 10,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 15,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 20,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 54,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 60,
+		     "El quinto elemento del vector es el correcto");
+
+	free(elemento1);
+	free(elemento5);
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void vectorPreorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_preorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en preorden");
+	pa2m_afirmar(*(int *)vector[0] == 50,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 20,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 10,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 15,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 30,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 60,
+		     "El septimo elemento del vector es el correcto");
+	abb_destruir_todo(abb, destructor);
+}
+
+void vectorPreordenBorrandoUnElemento()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_preorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en preorden");
+	pa2m_afirmar(*(int *)vector[0] == 50,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 20,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 10,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 15,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 30,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 60,
+		     "El septimo elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_preorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 6,
+		     "Se puede guardar en un vector los elementos en preorden");
+
+	pa2m_afirmar(*(int *)vector[0] == 50,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 20,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 15,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 30,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 54,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 60,
+		     "El sexto elemento del vector es el correcto");
+
+	free(elemento4);
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void otraPruebaDeVectorPreorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_preorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en preorden");
+	pa2m_afirmar(*(int *)vector[0] == 50,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 20,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 10,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 15,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 30,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 60,
+		     "El septimo elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_preorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 6,
+		     "Se puede guardar en un vector los elementos en preorden");
+
+	pa2m_afirmar(*(int *)vector[0] == 50,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 20,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 10,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 15,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 54,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 60,
+		     "El sexto elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_preorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 5,
+		     "Se puede guardar en un vector los elementos en preorden");
+
+	pa2m_afirmar(*(int *)vector[0] == 50,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 20,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 15,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 54,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 60,
+		     "El quinto elemento del vector es el correcto");
+
+	free(elemento4);
+	free(elemento5);
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void vectorPostorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_postorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en preorden");
+	pa2m_afirmar(*(int *)vector[0] == 15,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 10,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 30,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 20,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 60,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 50,
+		     "El septimo elemento del vector es el correcto");
+	abb_destruir_todo(abb, destructor);
+}
+
+void vectorPostordenBorrandoUnElemento()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_postorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en preorden");
+	pa2m_afirmar(*(int *)vector[0] == 15,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 10,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 30,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 20,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 60,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 50,
+		     "El septimo elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_postorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 6,
+		     "Se puede guardar en un vector los elementos en preorden");
+
+	pa2m_afirmar(*(int *)vector[0] == 15,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 30,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 20,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 60,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 54,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 50,
+		     "El sexto elemento del vector es el correcto");
+
+	free(elemento4);
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void otraPruebaDeVectorPostorden()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+	int *elemento7 = malloc(sizeof(int));
+	*elemento7 = 60;
+	abb_insertar(abb, elemento7);
+	void *vector[7];
+	size_t cantidad = abb_vectorizar_postorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 7,
+		     "Se puede guardar en un vector los elementos en preorden");
+	pa2m_afirmar(*(int *)vector[0] == 15,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 10,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 30,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 20,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 60,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 54,
+		     "El sexto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[6] == 50,
+		     "El septimo elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_postorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 6,
+		     "Se puede guardar en un vector los elementos en preorden");
+	pa2m_afirmar(*(int *)vector[0] == 15,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 10,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 20,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 60,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 54,
+		     "El quinto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[5] == 50,
+		     "El sexto elemento del vector es el correcto");
+
+	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+		     "Se puede eliminar un elemento del ABB");
+
+	printf("\n");
+
+	cantidad = abb_vectorizar_postorden(abb, vector, 7);
+
+	for (size_t i = 0; i < cantidad; i++)
+		printf("%i ", *(int *)vector[i]);
+
+	printf("\n");
+
+	pa2m_afirmar(cantidad == 5,
+		     "Se puede guardar en un vector los elementos en preorden");
+	pa2m_afirmar(*(int *)vector[0] == 15,
+		     "El primer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[1] == 20,
+		     "El segundo elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[2] == 60,
+		     "El tercer elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[3] == 54,
+		     "El cuarto elemento del vector es el correcto");
+	pa2m_afirmar(*(int *)vector[4] == 50,
+		     "El quinto elemento del vector es el correcto");
+
+	free(elemento4);
+	free(elemento5);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -283,6 +1293,38 @@ int main()
 	iterarInorden();
 	printf("\n");
 	iterarInordenBorrandoUnElemento();
+	printf("\n");
+	otraPruebaDeIteracionInorden();
+	pa2m_nuevo_grupo("Iteracion elementos PREORDEN");
+	iterarPreorden();
+	printf("\n");
+	iterarPreordenBorrandoUnElemento();
+	printf("\n");
+	otraPruebaDeIteracionPreorden();
+	pa2m_nuevo_grupo("Iteracion elementos POSTORDEN");
+	iterarPostorden();
+	printf("\n");
+	iterarPostordenBorrandoUnElemento();
+	printf("\n");
+	otraPruebaDeIteracionPostorden();
+	pa2m_nuevo_grupo("Vector de elementos en INORDEN");
+	vectorInorden();
+	printf("\n");
+	vectorInordenBorrandoUnElemento();
+	printf("\n");
+	otraPruebaDeVectorInorden();
+	pa2m_nuevo_grupo("Vector de elementos en PREORDEN");
+	vectorPreorden();
+	printf("\n");
+	vectorPreordenBorrandoUnElemento();
+	printf("\n");
+	otraPruebaDeVectorPreorden();
+	pa2m_nuevo_grupo("Vector de elementos en POSTORDEN");
+	vectorPostorden();
+	printf("\n");
+	vectorPostordenBorrandoUnElemento();
+	printf("\n");
+	otraPruebaDeVectorPostorden();
 
 	return pa2m_mostrar_reporte();
 }
