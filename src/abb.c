@@ -1,18 +1,6 @@
 #include "abb.h"
 #include "abb_estructura_privada.h"
 
-// typedef struct nodo {
-// 	void *elemento;
-// 	struct nodo *izq;
-// 	struct nodo *der;
-// } nodo_t;
-
-// struct abb {
-// 	size_t nodos;
-// 	nodo_t *raiz;
-// 	int (*comparador)(void*, void*);
-// };
-
 abb_t *abb_crear(int (*comparador)(void *, void *))
 {
 	if (comparador == NULL)
@@ -220,7 +208,7 @@ size_t abb_iterar_inorden_r(nodo_t *nodo, bool (*f)(void *, void *), void *ctx,
 	abb_iterar_inorden_r(nodo->izq, f, ctx, contador);
 
 	if (f(nodo->elemento, ctx) == false)
-		return *contador;
+		return (*contador)++;
 
 	(*contador)++;
 
@@ -246,7 +234,7 @@ size_t abb_iterar_preorden_r(nodo_t *nodo, bool (*f)(void *, void *), void *ctx,
 		return 0;
 
 	if (f(nodo->elemento, ctx) == false)
-		return *contador;
+		return (*contador)++;
 
 	(*contador)++;
 
@@ -276,7 +264,7 @@ size_t abb_iterar_postorden_r(nodo_t *nodo, bool (*f)(void *, void *),
 	abb_iterar_postorden_r(nodo->der, f, ctx, contador);
 
 	if (f(nodo->elemento, ctx) == false)
-		return *contador;
+		return *(contador)++;
 
 	(*contador)++;
 
