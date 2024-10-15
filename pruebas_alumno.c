@@ -1,8 +1,17 @@
 #include "pa2m.h"
 #include "src/abb.h"
+#include "src/abb_estructura_privada.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+void *abb_raiz(abb_t *abb)
+{
+	if (abb == NULL)
+		return NULL;
+
+	return abb->raiz->elemento;
+}
 
 int comparador_enteros(void *elemento1, void *elemento2)
 {
@@ -1266,6 +1275,88 @@ void otraPruebaDeVectorPostorden()
 	abb_destruir_todo(abb, destructor);
 }
 
+void error1()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+
+	void *raiz = abb_obtener(abb, elemento1);
+	pa2m_afirmar(raiz == elemento1, "La raíz del ABB es el elemento 50");
+
+	void *elementoquitado = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento1, &elementoquitado),
+		     "Se puede eliminar un nodo con dos hijos del ABB");
+	pa2m_afirmar(elementoquitado == elemento1,
+		     "El elemento quitado es el esperado (50)");
+
+	raiz = abb_obtener(abb, elemento5);
+	pa2m_afirmar(raiz == elemento5,
+		     "La nueva raíz es el predecesor inorden (30)");
+
+	pa2m_afirmar(
+		abb_obtener(abb, elemento3) == elemento3,
+		"El hijo izquierdo de la nueva raíz es el nodo esperado (20)");
+	pa2m_afirmar(
+		abb_obtener(abb, elemento2) == elemento2,
+		"El hijo derecho de la nueva raíz es el nodo esperado (54)");
+
+	pa2m_afirmar(abb_quitar(abb, elemento5, &elementoquitado),
+		     "Se puede eliminar el predecesor inorden");
+	pa2m_afirmar(abb_obtener(abb, elemento3) == elemento3,
+		     "La nueva raíz es el nodo 20 después de eliminar 30");
+
+	pa2m_afirmar(abb_obtener(abb, elemento6) == elemento6,
+		     "El hijo izquierdo de 20 es el nodo 15");
+
+	free(elemento1);
+	free(elemento5);
+	abb_destruir_todo(abb, destructor);
+}
+
+void error2()
+{
+	abb_t *abb = NULL;
+
+	pa2m_afirmar(abb_insertar(abb, NULL) == false,
+		     "No se puede insertar un elemento en un ABB NULL");
+
+	pa2m_afirmar(abb_cantidad(abb) == 0,
+		     "La cantidad de elementos en un ABB NULL es 0");
+
+	pa2m_afirmar(abb_quitar(abb, NULL, NULL) == false,
+		     "No se puede eliminar un elemento de un ABB NULL");
+}
+
+void error3()
+{
+	abb_t *abb = NULL;
+
+	abb_destruir(abb);
+}
+
 int main()
 {
 	pa2m_nuevo_grupo("Creacion ABB");
@@ -1325,6 +1416,12 @@ int main()
 	vectorPostordenBorrandoUnElemento();
 	printf("\n");
 	otraPruebaDeVectorPostorden();
+	pa2m_nuevo_grupo("Pruebas no pasadas - PARTE 1");
+	error1();
+	printf("\n");
+	error2();
+	printf("\n");
+	error3();
 
 	return pa2m_mostrar_reporte();
 }
