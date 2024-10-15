@@ -18,6 +18,9 @@ abb_t *abb_crear(int (*comparador)(void *, void *))
 
 void abb_destruir(abb_t *abb)
 {
+	if (abb == NULL)
+		return;
+
 	abb_destruir_todo(abb, NULL);
 }
 
@@ -37,6 +40,9 @@ void nodo_destruir(nodo_t *nodo, void (*destructor)(void *))
 
 void abb_destruir_todo(abb_t *abb, void (*destructor)(void *))
 {
+	if (abb == NULL)
+		return;
+
 	nodo_destruir(abb->raiz, destructor);
 
 	free(abb);
@@ -108,6 +114,7 @@ bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 			if (encontrado != NULL)
 				*encontrado = nodo->elemento;
 
+			//Nodo sin hijos
 			if (nodo->izq == NULL && nodo->der == NULL) {
 				if (padre == NULL)
 					abb->raiz = NULL;
@@ -117,7 +124,9 @@ bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 					padre->der = NULL;
 
 				free(nodo);
-			} else if (nodo->izq == NULL) {
+			}
+			//Nodo con hijo derecho
+			else if (nodo->izq == NULL) {
 				if (padre == NULL)
 					abb->raiz = nodo->der;
 				else if (padre->izq == nodo)
@@ -126,7 +135,9 @@ bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 					padre->der = nodo->der;
 
 				free(nodo);
-			} else if (nodo->der == NULL) {
+			}
+			//Nodo con hijo izquierdo
+			else if (nodo->der == NULL) {
 				if (padre == NULL)
 					abb->raiz = nodo->izq;
 				else if (padre->izq == nodo)
@@ -135,19 +146,21 @@ bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 					padre->der = nodo->izq;
 
 				free(nodo);
-			} else {
-				nodo_t *reemplazo = nodo->der;
+			}
+			//Nodo con ambos hijos
+			else {
+				nodo_t *reemplazo = nodo->izq;
 				nodo_t *padre_reemplazo = nodo;
 
-				while (reemplazo->izq != NULL) {
+				while (reemplazo->der != NULL) {
 					padre_reemplazo = reemplazo;
-					reemplazo = reemplazo->izq;
+					reemplazo = reemplazo->der;
 				}
 
 				if (padre_reemplazo == nodo)
-					padre_reemplazo->der = reemplazo->der;
+					padre_reemplazo->izq = reemplazo->izq;
 				else
-					padre_reemplazo->izq = reemplazo->der;
+					padre_reemplazo->der = reemplazo->izq;
 
 				nodo->elemento = reemplazo->elemento;
 
@@ -196,6 +209,9 @@ void *abb_obtener(abb_t *abb, void *elemento)
 
 size_t abb_cantidad(abb_t *abb)
 {
+	if (abb == NULL)
+		return 0;
+
 	return abb->nodos;
 }
 
@@ -339,18 +355,14 @@ size_t abb_vectorizar_preorden(abb_t *abb, void **vector, size_t tamaño)
 size_t abb_vectorizar_postorden_r(nodo_t *nodo, void **vector, size_t tamaño,
 				  size_t *contador)
 {
-	if (nodo == NULL ||
-	    *contador >= tamaño) // Si el nodo es NULL o ya llenamos el vector
+	if (nodo == NULL || *contador >= tamaño)
 		return *contador;
 
-	// Recorre el subárbol izquierdo
 	abb_vectorizar_postorden_r(nodo->izq, vector, tamaño, contador);
-	// Recorre el subárbol derecho
 	abb_vectorizar_postorden_r(nodo->der, vector, tamaño, contador);
 
 	if (*contador < tamaño) {
-		vector[*contador] =
-			nodo->elemento; // Almacena el elemento en el vector
+		vector[*contador] = nodo->elemento;
 		(*contador)++;
 	}
 
