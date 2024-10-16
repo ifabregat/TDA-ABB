@@ -226,6 +226,10 @@ void iterarInorden()
 	abb_insertar(abb, elemento7);
 	size_t cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
 	printf("\n");
+
+	printf("Cantidad: %lu\n", cantidad);
+
+	printf("\n");
 	pa2m_afirmar(cantidad == 7, "Se puede iterar en inorden el ABB");
 	abb_destruir_todo(abb, destructor);
 }
@@ -323,12 +327,32 @@ void iterarPreorden()
 	int *elemento1 = malloc(sizeof(int));
 	*elemento1 = 50;
 	abb_insertar(abb, elemento1);
+
+	size_t cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	printf("Cantidad: %lu\n", cantidad);
+	printf("\n");
+
 	int *elemento2 = malloc(sizeof(int));
 	*elemento2 = 54;
 	abb_insertar(abb, elemento2);
+
+	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	printf("Cantidad: %lu\n", cantidad);
+	printf("\n");
+
+	printf("\n");
+
 	int *elemento3 = malloc(sizeof(int));
 	*elemento3 = 20;
 	abb_insertar(abb, elemento3);
+
+	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+	printf("Cantidad: %lu\n", cantidad);
+	printf("\n");
+
 	int *elemento4 = malloc(sizeof(int));
 	*elemento4 = 10;
 	abb_insertar(abb, elemento4);
@@ -341,7 +365,11 @@ void iterarPreorden()
 	int *elemento7 = malloc(sizeof(int));
 	*elemento7 = 60;
 	abb_insertar(abb, elemento7);
-	size_t cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
+	printf("\n");
+
+	printf("Cantidad xd: %lu\n", cantidad);
+
 	printf("\n");
 	pa2m_afirmar(cantidad == 7, "Se puede iterar en preorden el ABB");
 	abb_destruir_todo(abb, destructor);
@@ -1357,6 +1385,145 @@ void error3()
 	abb_destruir(abb);
 }
 
+bool limitador(void *elemento, void *extra)
+{
+	int *limite = extra;
+
+	(*limite)--;
+
+	if (*limite > 0) {
+		return true;
+	}
+
+	return false;
+}
+
+void error1_2()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+
+	pa2m_afirmar(abb_cantidad(abb) == 6,
+		     "La cantidad de elementos en el ABB es 6");
+
+	int limite = 3;
+
+	size_t iterados = abb_iterar_inorden(abb, limitador, &limite);
+
+	printf("Iterados: %zu\n", iterados);
+
+	pa2m_afirmar(iterados == 3, "Se iteraron 3 elementos");
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void error2_2()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+
+	pa2m_afirmar(abb_cantidad(abb) == 6,
+		     "La cantidad de elementos en el ABB es 6");
+
+	int limite = 3;
+
+	size_t iterados = abb_iterar_preorden(abb, limitador, &limite);
+
+	printf("Iterados: %zu\n", iterados);
+
+	pa2m_afirmar(iterados == 3, "Se iteraron 3 elementos");
+
+	abb_destruir_todo(abb, destructor);
+}
+
+void error3_2()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 50;
+	abb_insertar(abb, elemento1);
+
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 20;
+	abb_insertar(abb, elemento3);
+
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 10;
+	abb_insertar(abb, elemento4);
+
+	int *elemento5 = malloc(sizeof(int));
+	*elemento5 = 30;
+	abb_insertar(abb, elemento5);
+
+	int *elemento6 = malloc(sizeof(int));
+	*elemento6 = 15;
+	abb_insertar(abb, elemento6);
+
+	pa2m_afirmar(abb_cantidad(abb) == 6,
+		     "La cantidad de elementos en el ABB es 6");
+
+	int limite = 3;
+
+	size_t iterados = abb_iterar_postorden(abb, limitador, &limite);
+
+	printf("Iterados: %zu\n", iterados);
+
+	pa2m_afirmar(iterados == 3, "Se iteraron 3 elementos");
+
+	abb_destruir_todo(abb, destructor);
+}
+
 int main()
 {
 	pa2m_nuevo_grupo("Creacion ABB");
@@ -1422,6 +1589,12 @@ int main()
 	error2();
 	printf("\n");
 	error3();
+	pa2m_nuevo_grupo("Pruebas no pasadas - PARTE 2");
+	error1_2();
+	printf("\n");
+	error2_2();
+	printf("\n");
+	error3_2();
 
 	return pa2m_mostrar_reporte();
 }
