@@ -1,6 +1,12 @@
 #include "abb.h"
 #include "abb_estructura_privada.h"
 
+typedef struct {
+	void **vector;
+	size_t tamaño;
+	size_t contador;
+} vector_t;
+
 abb_t *abb_crear(int (*comparador)(void *, void *))
 {
 	if (comparador == NULL)
@@ -309,22 +315,17 @@ size_t abb_iterar_postorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 	return abb_iterar_postorden_r(abb->raiz, f, ctx, &contador, &continuar);
 }
 
-size_t abb_vectorizar_inorden_r(nodo_t *nodo, void **vector, size_t tamaño,
-				size_t *contador)
+bool guardar_vector(void *elemento, void *ctx)
 {
-	if (nodo == NULL || *contador >= tamaño)
-		return *contador;
+	vector_t *vector = (vector_t *)ctx;
 
-	abb_vectorizar_inorden_r(nodo->izq, vector, tamaño, contador);
+	if (vector->contador >= vector->tamaño)
+		return false;
 
-	if (*contador < tamaño) {
-		vector[*contador] = nodo->elemento;
-		(*contador)++;
-	}
+	vector->vector[vector->contador] = elemento;
+	vector->contador++;
 
-	abb_vectorizar_inorden_r(nodo->der, vector, tamaño, contador);
-
-	return *contador;
+	return true;
 }
 
 size_t abb_vectorizar_inorden(abb_t *abb, void **vector, size_t tamaño)
@@ -332,26 +333,11 @@ size_t abb_vectorizar_inorden(abb_t *abb, void **vector, size_t tamaño)
 	if (abb == NULL || abb->raiz == NULL || vector == NULL)
 		return 0;
 
-	size_t contador = 0;
-	abb_vectorizar_inorden_r(abb->raiz, vector, tamaño, &contador);
-	return contador;
-}
+	vector_t ctx = { vector, tamaño, 0 };
 
-size_t abb_vectorizar_preorden_r(nodo_t *nodo, void **vector, size_t tamaño,
-				 size_t *contador)
-{
-	if (nodo == NULL || *contador >= tamaño)
-		return *contador;
+	abb_iterar_inorden(abb, guardar_vector, &ctx);
 
-	if (*contador < tamaño) {
-		vector[*contador] = nodo->elemento;
-		(*contador)++;
-	}
-
-	abb_vectorizar_preorden_r(nodo->izq, vector, tamaño, contador);
-	abb_vectorizar_preorden_r(nodo->der, vector, tamaño, contador);
-
-	return *contador;
+	return ctx.contador;
 }
 
 size_t abb_vectorizar_preorden(abb_t *abb, void **vector, size_t tamaño)
@@ -359,26 +345,11 @@ size_t abb_vectorizar_preorden(abb_t *abb, void **vector, size_t tamaño)
 	if (abb == NULL || abb->raiz == NULL || vector == NULL)
 		return 0;
 
-	size_t contador = 0;
-	abb_vectorizar_preorden_r(abb->raiz, vector, tamaño, &contador);
-	return contador;
-}
+	vector_t ctx = { vector, tamaño, 0 };
 
-size_t abb_vectorizar_postorden_r(nodo_t *nodo, void **vector, size_t tamaño,
-				  size_t *contador)
-{
-	if (nodo == NULL || *contador >= tamaño)
-		return *contador;
+	abb_iterar_preorden(abb, guardar_vector, &ctx);
 
-	abb_vectorizar_postorden_r(nodo->izq, vector, tamaño, contador);
-	abb_vectorizar_postorden_r(nodo->der, vector, tamaño, contador);
-
-	if (*contador < tamaño) {
-		vector[*contador] = nodo->elemento;
-		(*contador)++;
-	}
-
-	return *contador;
+	return ctx.contador;
 }
 
 size_t abb_vectorizar_postorden(abb_t *abb, void **vector, size_t tamaño)
@@ -386,7 +357,9 @@ size_t abb_vectorizar_postorden(abb_t *abb, void **vector, size_t tamaño)
 	if (abb == NULL || abb->raiz == NULL || vector == NULL || tamaño == 0)
 		return 0;
 
-	size_t contador = 0;
+	vector_t ctx = { vector, tamaño, 0 };
 
-	return abb_vectorizar_postorden_r(abb->raiz, vector, tamaño, &contador);
+	abb_iterar_postorden(abb, guardar_vector, &ctx);
+
+	return ctx.contador;
 }
