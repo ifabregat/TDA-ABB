@@ -216,85 +216,97 @@ size_t abb_cantidad(abb_t *abb)
 }
 
 size_t abb_iterar_inorden_r(nodo_t *nodo, bool (*f)(void *, void *), void *ctx,
-			    size_t *contador)
+			    size_t *contador, bool *continuar)
 {
-	if (nodo == NULL)
-		return 0;
+	if (nodo == NULL || !(*continuar))
+		return *contador;
 
-	abb_iterar_inorden_r(nodo->izq, f, ctx, contador);
+	abb_iterar_inorden_r(nodo->izq, f, ctx, contador, continuar);
 
-	if (f(nodo->elemento, ctx) == false)
-		return (*contador)++;
+	if (!(*continuar))
+		return *contador;
 
 	(*contador)++;
+	if (!f(nodo->elemento, ctx)) {
+		*continuar = false;
+		return *contador;
+	}
 
-	abb_iterar_inorden_r(nodo->der, f, ctx, contador);
+	abb_iterar_inorden_r(nodo->der, f, ctx, contador, continuar);
 
 	return *contador;
 }
 
 size_t abb_iterar_inorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 {
-	if (abb == NULL || abb->raiz == NULL)
+	if (abb == NULL || abb->raiz == NULL || f == NULL)
 		return 0;
 
 	size_t contador = 0;
+	bool continuar = true;
 
-	return abb_iterar_inorden_r(abb->raiz, f, ctx, &contador);
+	return abb_iterar_inorden_r(abb->raiz, f, ctx, &contador, &continuar);
 }
 
 size_t abb_iterar_preorden_r(nodo_t *nodo, bool (*f)(void *, void *), void *ctx,
-			     size_t *contador)
+			     size_t *contador, bool *continuar)
 {
-	if (nodo == NULL)
-		return 0;
-
-	if (f(nodo->elemento, ctx) == false)
-		return (*contador)++;
+	if (nodo == NULL || !(*continuar))
+		return *contador;
 
 	(*contador)++;
 
-	abb_iterar_preorden_r(nodo->izq, f, ctx, contador);
-	abb_iterar_preorden_r(nodo->der, f, ctx, contador);
+	if (!f(nodo->elemento, ctx)) {
+		*continuar = false;
+		return *contador;
+	}
+
+	abb_iterar_preorden_r(nodo->izq, f, ctx, contador, continuar);
+	abb_iterar_preorden_r(nodo->der, f, ctx, contador, continuar);
 
 	return *contador;
 }
 
 size_t abb_iterar_preorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 {
-	if (abb == NULL || abb->raiz == NULL)
+	if (abb == NULL || abb->raiz == NULL || f == NULL)
 		return 0;
 
 	size_t contador = 0;
+	bool continuar = true;
 
-	return abb_iterar_preorden_r(abb->raiz, f, ctx, &contador);
+	return abb_iterar_preorden_r(abb->raiz, f, ctx, &contador, &continuar);
 }
 
 size_t abb_iterar_postorden_r(nodo_t *nodo, bool (*f)(void *, void *),
-			      void *ctx, size_t *contador)
+			      void *ctx, size_t *contador, bool *continuar)
 {
-	if (nodo == NULL)
-		return 0;
+	if (nodo == NULL || !(*continuar))
+		return *contador;
 
-	abb_iterar_postorden_r(nodo->izq, f, ctx, contador);
-	abb_iterar_postorden_r(nodo->der, f, ctx, contador);
+	abb_iterar_postorden_r(nodo->izq, f, ctx, contador, continuar);
+	abb_iterar_postorden_r(nodo->der, f, ctx, contador, continuar);
 
-	if (f(nodo->elemento, ctx) == false)
-		return *(contador)++;
+	if (!(*continuar))
+		return *contador;
 
 	(*contador)++;
+
+	if (!f(nodo->elemento, ctx))
+		*continuar = false;
 
 	return *contador;
 }
 
 size_t abb_iterar_postorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 {
-	if (abb == NULL || abb->raiz == NULL)
+	if (abb == NULL || abb->raiz == NULL || f == NULL)
 		return 0;
 
 	size_t contador = 0;
+	bool continuar = true;
 
-	return abb_iterar_postorden_r(abb->raiz, f, ctx, &contador);
+	return abb_iterar_postorden_r(abb->raiz, f, ctx, &contador, &continuar);
 }
 
 size_t abb_vectorizar_inorden_r(nodo_t *nodo, void **vector, size_t tamaño,
