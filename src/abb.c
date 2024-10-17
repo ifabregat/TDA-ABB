@@ -1,5 +1,6 @@
 #include "abb.h"
 #include "abb_estructura_privada.h"
+#include <stdio.h>
 
 typedef struct {
 	void **vector;
@@ -204,10 +205,10 @@ void *abb_obtener(abb_t *abb, void *elemento)
 		if (comparacion == 0)
 			return nodo->elemento;
 
-		if (comparacion > 0)
-			nodo = nodo->der;
-		else
+		if (comparacion < 0)
 			nodo = nodo->izq;
+		else
+			nodo = nodo->der;
 	}
 
 	return NULL;
