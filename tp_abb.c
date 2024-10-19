@@ -191,6 +191,108 @@ void destructor_pokemon(void *elemento)
 	free(pokemon);
 }
 
+void iteraciones(abb_t *abb, char orden)
+{
+	switch (orden) {
+	case 'I':
+		abb_iterar_inorden(abb, imprimir_elemento, NULL);
+		break;
+
+	case 'i':
+		abb_iterar_inorden(abb, imprimir_elemento, NULL);
+		printf("\n");
+		break;
+
+	case 'P':
+		abb_iterar_preorden(abb, imprimir_elemento, NULL);
+		printf("\n");
+		break;
+
+	case 'p':
+		abb_iterar_preorden(abb, imprimir_elemento, NULL);
+		printf("\n");
+		break;
+
+	case 'O':
+		abb_iterar_postorden(abb, imprimir_elemento, NULL);
+		printf("\n");
+		break;
+
+	case 'o':
+		abb_iterar_postorden(abb, imprimir_elemento, NULL);
+		printf("\n");
+		break;
+
+	default:
+		printf("Opción inválida\n");
+		printf("\n");
+		break;
+	}
+}
+
+void busqueda(abb_t *abb, Pokemon *pokemon_buscar)
+{
+	void *resultado = abb_obtener(abb, pokemon_buscar);
+
+	if (resultado != NULL) {
+		printf("Pokemon encontrado!\n");
+		imprimir_elemento(resultado, NULL);
+	} else {
+		printf("No se encontró el pokemon\n");
+	}
+}
+
+void interaccion(abb_t *abb, struct archivo_csv *archivo)
+{
+	char opcion = 0;
+
+	printf("Ingrese una opción: ");
+	printf("M (Para mostrar todos los pokemones) o B (Para buscar un pokemon): ");
+
+	if (scanf(" %c", &opcion) != 1) {
+		cerrar_archivo_csv(archivo);
+		abb_destruir(abb);
+		return;
+	}
+
+	if (opcion == 'M' || opcion == 'm') {
+		char orden = 0;
+
+		printf("Ingrese el orden de impresión: I (Inorden), P (Preorden) o O (Postorden): ");
+
+		scanf(" %c", &orden);
+
+		printf("\n");
+
+		iteraciones(abb, orden);
+
+	} else if (opcion == 'B' || opcion == 'b') {
+		Pokemon pokemon_buscar = { 0 };
+
+		pokemon_buscar.nombre = malloc(100);
+
+		printf("Ingrese el nombre del pokemon a buscar: ");
+
+		if (scanf(" %99[^\n]", pokemon_buscar.nombre) != 1) {
+			free(pokemon_buscar.nombre);
+			cerrar_archivo_csv(archivo);
+			abb_destruir(abb);
+			return;
+		}
+
+		printf("\n");
+
+		busqueda(abb, &pokemon_buscar);
+
+		printf("\n");
+
+		free(pokemon_buscar.nombre);
+
+	} else {
+		printf("Opción inválida\n");
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	if (argc < 2) {
@@ -213,91 +315,7 @@ int main(int argc, char *argv[])
 
 	agregar_pokemon(archivo, abb);
 
-	char opcion = 0;
-
-	printf("Ingrese una opción: ");
-	printf("M (Para mostrar todos los pokemones) o B (Para buscar un pokemon): ");
-
-	if (scanf(" %c", &opcion) != 1) {
-		cerrar_archivo_csv(archivo);
-		abb_destruir(abb);
-		return 4;
-	}
-	
-	if (opcion == 'M' || opcion == 'm') {
-		char orden = 0;
-
-		printf("Ingrese el orden de impresión: I (Inorden), P (Preorden) o O (Postorden): ");
-
-		scanf(" %c", &orden);
-
-		printf("\n");
-
-		switch (orden) {
-		case 'I':
-			abb_iterar_inorden(abb, imprimir_elemento, NULL);
-			printf("\n");
-			break;
-
-		case 'i':
-			abb_iterar_inorden(abb, imprimir_elemento, NULL);
-			printf("\n");
-			break;
-
-		case 'P':
-			abb_iterar_preorden(abb, imprimir_elemento, NULL);
-			printf("\n");
-			break;
-
-		case 'p':
-			abb_iterar_preorden(abb, imprimir_elemento, NULL);
-			printf("\n");
-			break;
-
-		case 'O':
-			abb_iterar_postorden(abb, imprimir_elemento, NULL);
-			printf("\n");
-			break;
-
-		case 'o':
-			abb_iterar_postorden(abb, imprimir_elemento, NULL);
-			printf("\n");
-			break;
-
-		default:
-			printf("Opción inválida\n");
-			printf("\n");
-			break;
-		}
-	} else if (opcion == 'B' || opcion == 'b') {
-		Pokemon pokemon_buscar = { 0 };
-
-		pokemon_buscar.nombre = malloc(100);
-
-		printf("Ingrese el nombre del pokemon a buscar: ");
-
-		if (scanf(" %99[^\n]", pokemon_buscar.nombre) != 1) {
-			free(pokemon_buscar.nombre);
-			cerrar_archivo_csv(archivo);
-			abb_destruir(abb);
-			return 5;
-		}
-
-		void *resultado = abb_obtener(abb, &pokemon_buscar);
-
-		printf("\n");
-
-		if (resultado != NULL) {
-			printf("Pokemon encontrado!\n");
-			imprimir_elemento(resultado, NULL);
-			printf("\n");
-		} else {
-			printf("No se encontró el pokemon\n");
-		}
-		free(pokemon_buscar.nombre);
-	} else {
-		printf("Opción inválida\n");
-	}
+	interaccion(abb, archivo);
 
 	abb_destruir_todo(abb, destructor_pokemon);
 	cerrar_archivo_csv(archivo);

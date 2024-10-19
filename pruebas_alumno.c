@@ -134,6 +134,27 @@ void buscarOtroElemento()
 	free(elemento4);
 }
 
+void buscarElementoInexistente()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 21;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 32;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 70;
+	void *elemento_buscado = abb_obtener(abb, elemento4);
+	pa2m_afirmar(elemento_buscado == NULL,
+		     "Elemento no encontrado en el ABB");
+	abb_destruir_todo(abb, destructor);
+	free(elemento4);
+}
+
 void eliminarElemento()
 {
 	abb_t *abb = abb_crear(comparador_enteros);
@@ -192,6 +213,29 @@ void eliminarVariosElementos()
 		     "La cantidad de elementos en el ABB es 0");
 	free(elemento_eliminado);
 	abb_destruir_todo(abb, destructor);
+}
+
+void eliminarUnElementoInexistente()
+{
+	abb_t *abb = abb_crear(comparador_enteros);
+	int *elemento1 = malloc(sizeof(int));
+	*elemento1 = 21;
+	abb_insertar(abb, elemento1);
+	int *elemento2 = malloc(sizeof(int));
+	*elemento2 = 54;
+	abb_insertar(abb, elemento2);
+	int *elemento3 = malloc(sizeof(int));
+	*elemento3 = 32;
+	abb_insertar(abb, elemento3);
+	int *elemento4 = malloc(sizeof(int));
+	*elemento4 = 70;
+	void *elemento_eliminado;
+	pa2m_afirmar(!abb_quitar(abb, elemento4, &elemento_eliminado),
+		     "No se puede eliminar un elemento inexistente del ABB");
+	pa2m_afirmar(abb_cantidad(abb) == 3,
+		     "La cantidad de elementos en el ABB es 3");
+	abb_destruir_todo(abb, destructor);
+	free(elemento4);
 }
 
 bool imprimir_elemento(void *elemento, void *ctx)
@@ -1543,10 +1587,14 @@ int main()
 	buscarElemento();
 	printf("\n");
 	buscarOtroElemento();
+	printf("\n");
+	buscarElementoInexistente();
 	pa2m_nuevo_grupo("Eliminacion de elementos");
 	eliminarElemento();
 	printf("\n");
 	eliminarVariosElementos();
+	printf("\n");
+	eliminarUnElementoInexistente();
 	pa2m_nuevo_grupo("Iteracion elementos INORDEN");
 	iterarInorden();
 	printf("\n");

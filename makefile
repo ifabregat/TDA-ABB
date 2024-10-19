@@ -20,4 +20,4 @@ formatear:
 	clang-format -style=file -i src/*.c pruebas_alumno.c tp_abb.c src/abb.c
 
 clean:
-	rm -f pruebas_alumno ejemplo a.out
+	rm -f pruebas_alumno ejemplo a.out tp_abb
