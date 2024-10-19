@@ -27,6 +27,8 @@ valgrind ./tp_abb ejemplos/pokedex.csv
 
 ---
 
+### (R) Recursivo - (C) Ciclo
+
 #  Funciones basicas
 
 * **abb_crear**: asigna memoria con `calloc` para la estructura de `abb`. Si recibe un una función de comparación la asigna al campo `comparador` sino devuelve `NULL`. Devuelve el `abb` si pudo asignar memoria, caso contrario `NULL`.
@@ -74,15 +76,16 @@ valgrind ./tp_abb ejemplos/pokedex.csv
 
 # Funciones de vectorizar
 
-**IMPORTANTE**: para desarrollar esta parte implemente una estructura `vector_t` la cual contendrá un `void **` para el elemento y dos `size_t` uno para el tamaño y el otro para el contador.
+
+**IMPORTANTE** **(R)**: para desarrollar esta parte implemente una estructura `vector_t` la cual contendrá un `void **` para el elemento y dos `size_t` uno para el tamaño y el otro para el contador.
 
 * **guardar_vector**: formatea a `ctx` para que se comporte como tipo `vector_t`. Permitiendo guardar el elemento en la posición adecuada e incrementar el campo `contador`.
 
-* **abb_vectorizar_inorden**: asigna a `ctx` los valores del vector, tamaño y el valor 0. Procede a llamar a la función `abb_iterar_inorden` pasándole como valores el `abb`, `guardar_vector` y la direccion de `ctx`. Devuelve el campo `contador` de `ctx`.
+* **abb_vectorizar_inorden****(R)**: asigna a `ctx` los valores del vector, tamaño y el valor 0. Procede a llamar a la función `abb_iterar_inorden` pasándole como valores el `abb`, `guardar_vector` y la direccion de `ctx`. Devuelve el campo `contador` de `ctx`.
 
-* **abb_vectorizar_preorden**: asigna a `ctx` los valores del vector, tamaño y el valor 0. Procede a llamar a la función `abb_iterar_preorden` pasándole como valores el `abb`, `guardar_vector` y la direccion de `ctx`. Devuelve el campo `contador` de `ctx`.
+* **abb_vectorizar_preorden** **(R)**: asigna a `ctx` los valores del vector, tamaño y el valor 0. Procede a llamar a la función `abb_iterar_preorden` pasándole como valores el `abb`, `guardar_vector` y la direccion de `ctx`. Devuelve el campo `contador` de `ctx`.
 
-* **abb_vectorizar_postorden**: asigna a `ctx` los valores del vector, tamaño y el valor 0. Procede a llamar a la función `abb_iterar_postorden` pasándole como valores el `abb`, `guardar_vector` y la direccion de `ctx`. Devuelve el campo `contador` de `ctx`.
+* **abb_vectorizar_postorden** **(R)**: asigna a `ctx` los valores del vector, tamaño y el valor 0. Procede a llamar a la función `abb_iterar_postorden` pasándole como valores el `abb`, `guardar_vector` y la direccion de `ctx`. Devuelve el campo `contador` de `ctx`.
 
 
 # Arboles diferencias y complejidades
@@ -92,6 +95,8 @@ valgrind ./tp_abb ejemplos/pokedex.csv
 <div align="center">
 <img width="400px" src="img/arbol-nario.png">
 </div>
+
+**TIPOS**
 
 * **Arbol N-ario**: estos tipo de arboles tienen la raíz y pueden tener `n` cantidad de subárboles y a su vez esos `n` subárboles pueden tener `n` cantidad de surárboles y así sucesivamente. Hay que destacar que no tiene ninguna restricción, método de ordenamiento, etc.
 
@@ -106,7 +111,7 @@ valgrind ./tp_abb ejemplos/pokedex.csv
 
 **Operaciones básicas**
 
-**IMPORTANTE**:
+**IMPORTANTE**: asumo que tanto los arboles N-arios como binarios no tienen orden de ordenamiento.
 
 * **crear**: asignara memoria para la estructura. Complejidad -> O(1).
 
@@ -173,9 +178,9 @@ Escala de dificultad del 1 al 5, siendo 1 el nivel más fácil y 5 el más difí
 
 * **abb_iterar_postorden** **(R)**: ★ ★ ★ ☆ ☆ (3/5) tenía una idea de la anterior solo fue cambiar el orden de la recursión.
 
-* **abb_vectorizar_inorden** **(R)**: ★ ★ ★ ☆ ☆ (3/5) me costó la idea de como podría reutilizar la funcion `abb_iterar_inorden`
+* **abb_vectorizar_inorden** **(R)**: ★ ★ ★ ☆ ☆ (3/5) me costó la idea de como podría reutilizar la función `abb_iterar_inorden`.
 
-* **abb_vectorizar_preorden** **(R)**: ★ ★ ★ ☆ ☆ (3/5) fue hacer lo mismo que la anterior.
+* **abb_vectorizar_preorden** **(R)**: ★ ★ ★ ☆ ☆ (3/5) fue hacer lo mismo que la anterior pero llama a la función `abb_iterar_preorden`.
 
-* **abb_vectorizar_postorden** **(R)**: ★ ★ ★ ☆ ☆ (3/5) fue hacer lo mismo que la anterior.
+* **abb_vectorizar_postorden** **(R)**: ★ ★ ★ ☆ ☆ (3/5) fue hacer lo mismo que la anterior pero llama a la función `abb_iterar_postorden`.
 
