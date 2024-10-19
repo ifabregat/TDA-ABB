@@ -260,7 +260,11 @@ void interaccion(abb_t *abb, struct archivo_csv *archivo)
 
 		printf("Ingrese el orden de impresión: I (Inorden), P (Preorden) o O (Postorden): ");
 
-		scanf(" %c", &orden);
+		if (scanf(" %c", &orden) != 1) {
+			cerrar_archivo_csv(archivo);
+			abb_destruir(abb);
+			return;
+		}
 
 		printf("\n");
 
