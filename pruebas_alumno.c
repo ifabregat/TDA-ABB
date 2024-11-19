@@ -302,18 +302,22 @@ void iterarInordenBorrandoUnElemento()
 	int *elemento7 = malloc(sizeof(int));
 	*elemento7 = 60;
 	abb_insertar(abb, elemento7);
+
+	printf("Recorrido inorden inicial:\n");
 	size_t cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 7, "Se puede iterar en inorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+	int *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento4, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
+	printf("Recorrido inorden tras eliminar:\n");
 	cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 6, "Se puede iterar en inorden el ABB");
 
-	free(elemento4);
+	free(extraido);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -346,22 +350,28 @@ void otraPruebaDeIteracionInorden()
 	printf("\n");
 	pa2m_afirmar(cantidad == 7, "Se puede iterar en inorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento5, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 6, "Se puede iterar en inorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento1, NULL),
+	void *extraido2 = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento1, (void **)&extraido2),
 		     "Se puede eliminar un elemento del ABB");
 
-	cantidad = abb_iterar_inorden(abb, imprimir_elemento, NULL);
+	void *extraido3 = NULL;
+	cantidad =
+		abb_iterar_inorden(abb, imprimir_elemento, (void **)&extraido3);
 	printf("\n");
 	pa2m_afirmar(cantidad == 5, "Se puede iterar en inorden el ABB");
 
-	free(elemento1);
-	free(elemento5);
+	free(extraido);
+	free(extraido2);
+	free(extraido3);
+
 	abb_destruir_todo(abb, destructor);
 }
 
@@ -447,14 +457,15 @@ void iterarPreordenBorrandoUnElemento()
 	printf("\n");
 	pa2m_afirmar(cantidad == 7, "Se puede iterar en preorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento4, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 6, "Se puede iterar en preorden el ABB");
 
-	free(elemento4);
+	free(extraido);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -487,22 +498,25 @@ void otraPruebaDeIteracionPreorden()
 	printf("\n");
 	pa2m_afirmar(cantidad == 7, "Se puede iterar en preorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento5, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 6, "Se puede iterar en preorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento1, NULL),
+	void *extraido2 = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento1, (void **)&extraido2),
 		     "Se puede eliminar un elemento del ABB");
 
 	cantidad = abb_iterar_preorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 5, "Se puede iterar en preorden el ABB");
 
-	free(elemento1);
-	free(elemento5);
+	free(extraido);
+	free(extraido2);
+
 	abb_destruir_todo(abb, destructor);
 }
 
@@ -564,14 +578,15 @@ void iterarPostordenBorrandoUnElemento()
 	printf("\n");
 	pa2m_afirmar(cantidad == 7, "Se puede iterar en postorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento4, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 6, "Se puede iterar en postorden el ABB");
 
-	free(elemento4);
+	free(extraido);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -604,22 +619,25 @@ void otraPruebaDeIteracionPostorden()
 	printf("\n");
 	pa2m_afirmar(cantidad == 7, "Se puede iterar en postorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento5, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 6, "Se puede iterar en postorden el ABB");
 
-	pa2m_afirmar(abb_quitar(abb, elemento1, NULL),
+	void *extraido2 = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento1, (void **)&extraido2),
 		     "Se puede eliminar un elemento del ABB");
 
 	cantidad = abb_iterar_postorden(abb, imprimir_elemento, NULL);
 	printf("\n");
 	pa2m_afirmar(cantidad == 5, "Se puede iterar en postorden el ABB");
 
-	free(elemento1);
-	free(elemento5);
+	free(extraido);
+	free(extraido2);
+
 	abb_destruir_todo(abb, destructor);
 }
 
@@ -723,7 +741,8 @@ void vectorInordenBorrandoUnElemento()
 	pa2m_afirmar(*(int *)vector[6] == 60,
 		     "El septimo elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento4, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -751,7 +770,7 @@ void vectorInordenBorrandoUnElemento()
 	pa2m_afirmar(*(int *)vector[5] == 60,
 		     "El sexto elemento del vector es el correcto");
 
-	free(elemento4);
+	free(extraido);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -805,7 +824,8 @@ void otraPruebaDeVectorInorden()
 	pa2m_afirmar(*(int *)vector[6] == 60,
 		     "El septimo elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento5, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -833,7 +853,8 @@ void otraPruebaDeVectorInorden()
 	pa2m_afirmar(*(int *)vector[5] == 60,
 		     "El sexto elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento1, NULL),
+	void *extraido2 = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento1, (void **)&extraido2),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -859,8 +880,8 @@ void otraPruebaDeVectorInorden()
 	pa2m_afirmar(*(int *)vector[4] == 60,
 		     "El quinto elemento del vector es el correcto");
 
-	free(elemento1);
-	free(elemento5);
+	free(extraido);
+	free(extraido2);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -965,7 +986,8 @@ void vectorPreordenBorrandoUnElemento()
 	pa2m_afirmar(*(int *)vector[6] == 60,
 		     "El septimo elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento4, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -993,7 +1015,7 @@ void vectorPreordenBorrandoUnElemento()
 	pa2m_afirmar(*(int *)vector[5] == 60,
 		     "El sexto elemento del vector es el correcto");
 
-	free(elemento4);
+	free(extraido);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -1047,7 +1069,8 @@ void otraPruebaDeVectorPreorden()
 	pa2m_afirmar(*(int *)vector[6] == 60,
 		     "El septimo elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento5, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -1075,7 +1098,8 @@ void otraPruebaDeVectorPreorden()
 	pa2m_afirmar(*(int *)vector[5] == 60,
 		     "El sexto elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+	void *extraido2 = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento4, (void **)&extraido2),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -1101,8 +1125,8 @@ void otraPruebaDeVectorPreorden()
 	pa2m_afirmar(*(int *)vector[4] == 60,
 		     "El quinto elemento del vector es el correcto");
 
-	free(elemento4);
-	free(elemento5);
+	free(extraido);
+	free(extraido2);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -1207,7 +1231,8 @@ void vectorPostordenBorrandoUnElemento()
 	pa2m_afirmar(*(int *)vector[6] == 50,
 		     "El septimo elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento4, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -1235,7 +1260,7 @@ void vectorPostordenBorrandoUnElemento()
 	pa2m_afirmar(*(int *)vector[5] == 50,
 		     "El sexto elemento del vector es el correcto");
 
-	free(elemento4);
+	free(extraido);
 
 	abb_destruir_todo(abb, destructor);
 }
@@ -1289,7 +1314,8 @@ void otraPruebaDeVectorPostorden()
 	pa2m_afirmar(*(int *)vector[6] == 50,
 		     "El septimo elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento5, NULL),
+	void *extraido = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento5, (void **)&extraido),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -1316,7 +1342,8 @@ void otraPruebaDeVectorPostorden()
 	pa2m_afirmar(*(int *)vector[5] == 50,
 		     "El sexto elemento del vector es el correcto");
 
-	pa2m_afirmar(abb_quitar(abb, elemento4, NULL),
+	void *extraido2 = NULL;
+	pa2m_afirmar(abb_quitar(abb, elemento4, (void **)&extraido2),
 		     "Se puede eliminar un elemento del ABB");
 
 	printf("\n");
@@ -1341,8 +1368,8 @@ void otraPruebaDeVectorPostorden()
 	pa2m_afirmar(*(int *)vector[4] == 50,
 		     "El quinto elemento del vector es el correcto");
 
-	free(elemento4);
-	free(elemento5);
+	free(extraido);
+	free(extraido2);
 
 	abb_destruir_todo(abb, destructor);
 }
