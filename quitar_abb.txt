@@ -1,4 +1,4 @@
-GPT:
+IVAN:
 bool abb_quitar_r(nodo_t **nodo, void *buscado, void **encontrado,
 		  int (*comparador)(void *, void *))
 {
@@ -73,152 +73,68 @@ bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 	return se_elimino;
 }
 
-
-Profe:
+PROFE:
 nodo_t *extraer_elemento_mas_derecho(nodo_t *nodo, void **elemento)
 {
 	if (nodo->der == NULL) {
-		*elemento = nodo->elemento; // Guardamos el elemento
-		return nodo
-			->izq; // Retornamos el hijo izquierdo (puede ser NULL)
+		*elemento = nodo->elemento;
+		nodo_t *izq = nodo->izq;
+		free(nodo);
+		return izq;
 	}
 	nodo->der = extraer_elemento_mas_derecho(nodo->der, elemento);
-	return nodo; // Retornamos el nodo sin cambios
+	return nodo;
 }
 
-void *nodo_quitar(nodo_t *nodo, void *elemento,
-		  int (*comparador)(void *, void *), void **elem_extraido,
-		  bool *se_elimino)
+nodo_t *quitar_rec(nodo_t *nodo, void *elemento,
+		   int (*comparador)(void *, void *), void **elem_extraido,
+		   bool *se_elimino)
 {
 	if (nodo == NULL) {
-		return NULL; // El nodo no fue encontrado
+		*se_elimino = false;
+		return NULL;
 	}
 
-	// Compara el nodo actual con el elemento a eliminar
-	int cmp = comparador(nodo->elemento, elemento);
+	int comparacion = comparador(elemento, nodo->elemento);
 
-	if (cmp == 0) {
-		// Nodo encontrado, guardamos el elemento a eliminar
-		*elem_extraido = nodo->elemento;
-		*se_elimino = true; // Marcamos que se eliminó un nodo
-
-		// Caso 1: Nodo con ambos hijos
-		if (nodo->izq != NULL && nodo->der != NULL) {
-			void *elemento_derecho = NULL;
-			// Buscar el reemplazo más a la derecha en el subárbol izquierdo
-			nodo->izq = extraer_elemento_mas_derecho(
-				nodo->izq, &elemento_derecho);
-			nodo->elemento = elemento_derecho;
-			return nodo; // Nodo con reemplazo
-		}
-		// Caso 2: Nodo con un solo hijo o sin hijos
-		else {
-			nodo_t *hijo = (nodo->izq != NULL) ? nodo->izq :
-							     nodo->der;
-			free(nodo); // Liberamos el nodo actual
-			return hijo; // Retornamos el hijo (puede ser NULL si no tiene hijos)
-		}
-	}
-	// Recursión para encontrar el nodo en el subárbol izquierdo o derecho
-	else if (cmp > 0) {
-		nodo->izq = nodo_quitar(nodo->izq, elemento, comparador,
-					elem_extraido, se_elimino);
+	if (comparacion < 0) {
+		nodo->izq = quitar_rec(nodo->izq, elemento, comparador,
+				       elem_extraido, se_elimino);
+	} else if (comparacion > 0) {
+		nodo->der = quitar_rec(nodo->der, elemento, comparador,
+				       elem_extraido, se_elimino);
 	} else {
-		nodo->der = nodo_quitar(nodo->der, elemento, comparador,
-					elem_extraido, se_elimino);
+		*elem_extraido = nodo->elemento;
+		if (nodo->izq == NULL) {
+			nodo_t *der = nodo->der;
+			free(nodo);
+			*se_elimino = true;
+			return der;
+		}
+		if (nodo->der == NULL) {
+			nodo_t *izq = nodo->izq;
+			free(nodo);
+			*se_elimino = true;
+			return izq;
+		}
+		nodo->izq = extraer_elemento_mas_derecho(nodo->izq,
+							 &nodo->elemento);
+		*se_elimino = true;
 	}
-
-	return nodo; // Retorna el nodo actualizado
+	return nodo;
 }
 
-bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
+bool abb_quitar(abb_t *abb, void *elemento, void **elem_extraido)
 {
-	if (abb == NULL)
+	if (!abb || !abb->raiz || !elem_extraido)
 		return false;
 
 	bool se_elimino = false;
-
-	abb->raiz = nodo_quitar(abb->raiz, buscado, abb->comparador, encontrado,
-				&se_elimino);
+	abb->raiz = quitar_rec(abb->raiz, elemento, abb->comparador,
+			       elem_extraido, &se_elimino);
 
 	if (se_elimino)
 		abb->nodos--;
 
 	return se_elimino;
-}
-
-Otra de GPT:
-nodo_t *buscar_y_eliminar_reemplazo(nodo_t *nodo, nodo_t **padre_reemplazo) {
-    nodo_t *reemplazo = nodo->izq;
-    *padre_reemplazo = nodo;
-
-    while (reemplazo->der != NULL) {
-        *padre_reemplazo = reemplazo;
-        reemplazo = reemplazo->der;
-    }
-
-    // Actualizar puntero del padre del reemplazo
-    if (*padre_reemplazo == nodo)
-        (*padre_reemplazo)->izq = reemplazo->izq;
-    else
-        (*padre_reemplazo)->der = reemplazo->izq;
-
-    return reemplazo;
-}
-
-void eliminar_nodo_con_un_hijo(abb_t *abb, nodo_t *nodo, nodo_t *padre) {
-    nodo_t *hijo = (nodo->izq) ? nodo->izq : nodo->der;
-
-    if (padre == NULL) // Nodo raíz
-        abb->raiz = hijo;
-    else if (padre->izq == nodo)
-        padre->izq = hijo;
-    else
-        padre->der = hijo;
-
-    free(nodo);
-}
-
-bool abb_quitar(abb_t *abb, void *buscado, void **encontrado) {
-    if (abb == NULL)
-        return false;
-
-    nodo_t *nodo = abb->raiz;
-    nodo_t *padre = NULL;
-
-    while (nodo != NULL) {
-        int comparacion = abb->comparador(buscado, nodo->elemento);
-
-        if (comparacion == 0) { // Nodo encontrado
-            if (encontrado != NULL)
-                *encontrado = nodo->elemento;
-
-            if (nodo->izq == NULL && nodo->der == NULL) { // Caso sin hijos
-                if (padre == NULL)
-                    abb->raiz = NULL;
-                else if (padre->izq == nodo)
-                    padre->izq = NULL;
-                else
-                    padre->der = NULL;
-
-                free(nodo);
-            } else if (nodo->izq == NULL || nodo->der == NULL) { // Caso un hijo
-                eliminar_nodo_con_un_hijo(abb, nodo, padre);
-            } else { // Caso dos hijos
-                nodo_t *padre_reemplazo = NULL;
-                nodo_t *reemplazo = buscar_y_eliminar_reemplazo(nodo, &padre_reemplazo);
-
-                nodo->elemento = reemplazo->elemento;
-                free(reemplazo);
-            }
-
-            abb->nodos--;
-            return true;
-        }
-
-        padre = nodo;
-        nodo = (comparacion > 0) ? nodo->der : nodo->izq;
-    }
-
-    return false;
 }
